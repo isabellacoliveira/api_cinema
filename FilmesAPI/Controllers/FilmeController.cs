@@ -1,24 +1,35 @@
 using FilmesAPI.Models;
-using Microsoft.AspNetCore.Mvc; // rotas 
+using Microsoft.AspNetCore.Mvc; 
 
 namespace FilmesAPI.Controllers;
-// precisamos fazer 
 [ApiController]
-// pois quero que a requisição seja enviada para esse controlador 
 [Route("[controller]")]
 public class FilmeController : ControllerBase
 {
     private static List<Filme> filmes = new List<Filme>();
-    [HttpPost] // toda vez que fazermos isso, vamos enviar um filme 
-    // ele deve estar pronto para cadastrar um novo filme no sistema 
-    // ele entra através do corpo de uma requisição
-    public void AdicionaFilme([FromBody] Filme filme)
+    private static int id = 0; 
+
+
+    [HttpPost]
+    public IActionResult AdicionaFilme([FromBody] Filme filme)
     {
-        // queremos adicionar filme, precisamos de informações 
-        // precisamos criar o objeto de filme e nossa classe que vai representa-la 
+        filme.Id = id++; 
         filmes.Add(filme); 
-        Console.WriteLine(filme.Titulo);
-        Console.WriteLine(filme.Duracao);
-        Console.WriteLine(filme.Genero);
+        return CreatedAtAction(nameof(RecuperaFilmePorId), new { id = filme.Id }, filme); 
+    }
+
+    [HttpGet]
+    public IEnumerable<Filme> RecuperaFilmes([FromQuery] int skip = 0, 
+                                             [FromQuery] int take = 50)
+    {
+        return filmes.Skip(skip).Take(take);
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult RecuperaFilmePorId(int id)
+    {
+        var filme = filmes.FirstOrDefault(filme => filme.Id == id); 
+        if(filme == null) return NotFound(); 
+        return Ok(filme); 
     }
 }
