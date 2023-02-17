@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilmesAPI.Controllers
 {
     [ApiController]
+    // aqui o que estamos fazendo é pegar o prefixo antes de controlador 
+    // e colocando no swagger 
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
