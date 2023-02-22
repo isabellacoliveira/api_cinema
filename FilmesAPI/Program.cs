@@ -4,12 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+// no momento que instanciarmos cimema queremos também instanciar como uma propriedade do meu cinema 
+// o seu respectivo endereço, ele vai instanciar de maneira lazy 
 var connectionString = builder.Configuration.GetConnectionString("FilmeConnection");
 builder.Services.AddDbContext<FilmeContext>(opts => 
-    opts.UseMySql(connectionString, 
+    opts.UseLazyLoadingProxies().UseMySql(connectionString, 
         ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 // Add services to the container.
 
