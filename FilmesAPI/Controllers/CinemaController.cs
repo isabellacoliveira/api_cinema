@@ -31,8 +31,8 @@ namespace FilmesApi.Controllers
             return CreatedAtAction(nameof(RecuperaCinemasPorId), new { Id = cinema.Id }, cinemaDto);
         }
 
-        [HttpGet]
-        public IEnumerable<ReadCinemaDto> RecuperaCinemas()
+        [HttpGet] // se nada for passado o endereço é nulo 
+        public IEnumerable<ReadCinemaDto> RecuperaCinemas([FromQuery] int? enderecoId = null)
         {
             // esta tendo problemas de mapeamento 
             var listaDeCinemasBanco = _context.Cinemas.ToList(); 
