@@ -1,5 +1,4 @@
 using FilmesApi.Models;
-using FilmesAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmesAPI.Data; 
@@ -10,25 +9,26 @@ public class FilmeContext : DbContext
     {
         
     }
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Sessao>()
             .HasKey(sessao => new { sessao.FilmeId, sessao.CinemaId });
-        // uma sessão , um cinema , um cinema , varias sessoes 
+
         builder.Entity<Sessao>()
             .HasOne(sessao => sessao.Cinema)
-            .WithMany(cinema => cinema.Sessoes) 
+            .WithMany(cinema => cinema.Sessoes)
             .HasForeignKey(sessao => sessao.CinemaId);
 
         builder.Entity<Sessao>()
             .HasOne(sessao => sessao.Filme)
-            .WithMany(filme => filme.Sessoes) 
+            .WithMany(filme => filme.Sessoes)
             .HasForeignKey(sessao => sessao.FilmeId);
-        // definimos que o método de deleção será restrito e não em cascata 
+
         builder.Entity<Endereco>()
-                .HasOne(endereco => endereco.Cinema)
-                .WithOne(cinema => cinema.Endereco)
-                .OnDelete(DeleteBehavior.Restrict); 
+            .HasOne(endereco => endereco.Cinema)
+            .WithOne(cinema => cinema.Endereco)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
     public DbSet<Filme> Filmes { get; set; }

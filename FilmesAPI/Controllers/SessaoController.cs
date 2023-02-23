@@ -36,16 +36,13 @@ namespace FilmesApi.Controllers
             return _mapper.Map<List<ReadSessaoDto>>(_context.Sessoes.ToList());
         }
 
-        [HttpGet("{filmeId}/{cinemaId}")]
+         [HttpGet("{filmeId}/{cinemaId}")]
         public IActionResult RecuperaSessoesPorId(int filmeId, int cinemaId)
         {
-            Sessao sessao = _context.Sessoes.FirstOrDefault
-            (sessao => sessao.FilmeId == filmeId && 
-                            sessao.CinemaId == cinemaId);
+            Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.FilmeId == filmeId && sessao.CinemaId == cinemaId);
             if (sessao != null)
             {
                 ReadSessaoDto sessaoDto = _mapper.Map<ReadSessaoDto>(sessao);
-
                 return Ok(sessaoDto);
             }
             return NotFound();

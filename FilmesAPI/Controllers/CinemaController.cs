@@ -1,9 +1,9 @@
 using AutoMapper;
+using FilmesApi.Data.Dtos;
+using FilmesApi.Models;
 using FilmesAPI.Data;
-using FilmesAPI.Data.Dtos;
-using FilmesAPI.Dtos;
-using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FilmesApi.Controllers
 {
@@ -31,13 +31,14 @@ namespace FilmesApi.Controllers
             return CreatedAtAction(nameof(RecuperaCinemasPorId), new { Id = cinema.Id }, cinemaDto);
         }
 
-        [HttpGet] // se nada for passado o endereço é nulo 
+       [HttpGet]
         public IEnumerable<ReadCinemaDto> RecuperaCinemas([FromQuery] int? enderecoId = null)
         {
-            // esta tendo problemas de mapeamento 
-            var listaDeCinemasBanco = _context.Cinemas.ToList(); 
-            var listaDeCinemas = _mapper.Map<List<ReadCinemaDto>>(_context.Cinemas.ToList());
-            return listaDeCinemas; 
+            if(enderecoId == null)
+            {
+                return _mapper.Map<List<ReadCinemaDto>>(_context.Cinemas.ToList());
+            }
+            return _mapper.Map<List<ReadCinemaDto>>(_context.Cinemas.FromSqlRaw($"SELECT Id, Nome, EnderecoId FROM cinemas where cinemas.EnderecoId = {enderecoId}").ToList());
         }
 
         [HttpGet("{id}")]

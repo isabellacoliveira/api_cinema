@@ -1,7 +1,4 @@
-using FilmesApi.Data.Dtos;
-using FilmesAPI.Models;
-
-namespace FilmesAPI.Data.Dtos
+namespace FilmesApi.Data.Dtos
 {
     public class ReadCinemaDto
     {

@@ -1,8 +1,9 @@
-namespace FilmesAPI.Models; 
-
-public class ReadEnderecoDto
+namespace FilmesApi.Data.Dtos
 {
-    public int Id { get; set; }
-    public string Logradouro { get; set; }
-    public int Numero { get; set; }
+    public class ReadEnderecoDto
+    {
+        public int Id { get; set; }
+        public string Logradouro { get; set; }
+        public int Numero { get; set; }
+    }
 }
